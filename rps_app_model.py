@@ -43,33 +43,32 @@ def image_gen_w_aug(train_parent_directory, test_parent_directory):
     return train_generator, val_generator, test_generator
 
 
-
 train_dir = os.path.join('C:/Python/rps/datasets/train/')
 test_dir = os.path.join('C:/Python/rps/datasets/test/')
 
 train_generator, validation_generator, test_generator = image_gen_w_aug(train_dir, test_dir)
 
 model = tf.keras.models.Sequential([
-  # Note the input shape is the desired size of the image:
-  # 150x150 with 3 bytes color
-  # This is the first convolution
-  tf.keras.layers.Conv2D(64, (3,3), activation='relu',
-              input_shape=(75, 75, 3)),
-  tf.keras.layers.MaxPooling2D(2, 2),
-  # The second convolution
-  tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
-  tf.keras.layers.MaxPooling2D(2,2),
-  # The third convolution
-  tf.keras.layers.Conv2D(128, (3,3), activation='relu'),
-  tf.keras.layers.MaxPooling2D(2,2),
-  # The fourth convolution
-  tf.keras.layers.Conv2D(128, (3,3), activation='relu'),
-  tf.keras.layers.MaxPooling2D(2,2),
-  # Flatten the results to feed into a DNN
-  tf.keras.layers.Flatten(),
-  # 512 neuron hidden layer
-  tf.keras.layers.Dense(512, activation='relu'),
-  tf.keras.layers.Dense(3, activation='softmax')
+    # Note the input shape is the desired size of the image:
+    # 150x150 with 3 bytes color
+    # This is the first convolution
+    tf.keras.layers.Conv2D(64, (3, 3), activation='relu',
+                           input_shape=(75, 75, 3)),
+    tf.keras.layers.MaxPooling2D(2, 2),
+    # The second convolution
+    tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
+    tf.keras.layers.MaxPooling2D(2, 2),
+    # The third convolution
+    tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
+    tf.keras.layers.MaxPooling2D(2, 2),
+    # The fourth convolution
+    tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
+    tf.keras.layers.MaxPooling2D(2, 2),
+    # Flatten the results to feed into a DNN
+    tf.keras.layers.Flatten(),
+    # 512 neuron hidden layer
+    tf.keras.layers.Dense(512, activation='relu'),
+    tf.keras.layers.Dense(3, activation='softmax')
 ])
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
