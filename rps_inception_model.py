@@ -5,13 +5,13 @@ Created on Thu Jun 25 04:09:59 2020
 @author: ASUS
 """
 
-import keras
 from tensorflow.keras.applications.inception_v3 import InceptionV3
 from tensorflow.keras.layers import Flatten, Dense, Dropout
 from tensorflow.keras.models import Model
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import tensorflow as tf
 import os
+import datetime
 
 
 def image_gen_w_aug(train_parent_directory, valid_test_parent_directory, test_parent_directory):
@@ -19,14 +19,13 @@ def image_gen_w_aug(train_parent_directory, valid_test_parent_directory, test_pa
                                        rotation_range=30,
                                        zoom_range=0.2,
                                        width_shift_range=0.1,
-                                       height_shift_range=0.1,
-                                       validation_split=0.15)
+                                       height_shift_range=0.1)
 
     test_datagen = ImageDataGenerator(rescale=1 / 255)
 
     train_generator = train_datagen.flow_from_directory(train_parent_directory,
                                                         target_size=(75, 75),
-                                                        batch_size=214,
+                                                        batch_size=37,
                                                         class_mode='categorical')
 
     val_generator = train_datagen.flow_from_directory(valid_test_parent_directory,
@@ -76,11 +75,15 @@ last_output = last_layer.output
 model_TL = model_output_for_TL(pre_trained_model, last_output)
 model_TL.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
+log_dir = "logs/inception/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+
 history_TL = model_TL.fit(
     train_generator,
-    steps_per_epoch=10,
+    steps_per_epoch=10, #10 batches to train
     epochs=5,
     verbose=1,
-    validation_data=validation_generator)
+    validation_data=validation_generator,
+    callbacks=[tensorboard_callback])
 
 tf.keras.models.save_model(model_TL, 'my_model.hdf5')
