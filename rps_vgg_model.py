@@ -74,7 +74,7 @@ last_output = last_layer.output
 model_TL = model_output_for_TL(pre_trained_model, last_output)
 model_TL.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-log_dir = "logs/vgg" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+log_dir = "logs/vgg/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 
 history_TL = model_TL.fit(

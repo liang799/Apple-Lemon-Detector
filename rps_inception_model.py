@@ -73,17 +73,24 @@ last_layer = pre_trained_model.get_layer('mixed3')
 last_output = last_layer.output
 
 model_TL = model_output_for_TL(pre_trained_model, last_output)
-model_TL.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+model_TL.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
 
 log_dir = "logs/inception/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1, profile_batch='100,120')
+tboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir,
+                                                 profile_batch='500,510')
 
-history_TL = model_TL.fit(
+tensorboard_callback = tf.keras.callbacks.TensorBoard(
+    log_dir=log_dir,
+    histogram_freq=1,
+    profile_batch='100,120')
+
+history = model_TL.fit(
     train_generator,
-    steps_per_epoch=10, #10 batches to train
+    steps_per_epoch=10,  # 10 batches to train
     epochs=5,
     verbose=1,
     validation_data=validation_generator,
-    callbacks=[tensorboard_callback])
+    callbacks=[tboard_callback])
 
-tf.keras.models.save_model(model_TL, 'my_model.hdf5')
+# tf.keras.models.save_model(model_TL, 'my_model.hdf5')
