@@ -14,7 +14,7 @@ import tensorflow as tf
 import os
 
 
-def image_gen_w_aug(train_parent_directory, test_parent_directory):
+def image_gen_w_aug(train_parent_directory, valid_test_parent_directory, test_parent_directory):
     train_datagen = ImageDataGenerator(rescale=1 / 255,
                                        rotation_range=30,
                                        zoom_range=0.2,
@@ -27,14 +27,12 @@ def image_gen_w_aug(train_parent_directory, test_parent_directory):
     train_generator = train_datagen.flow_from_directory(train_parent_directory,
                                                         target_size=(75, 75),
                                                         batch_size=214,
-                                                        class_mode='categorical',
-                                                        subset='training')
+                                                        class_mode='categorical')
 
-    val_generator = train_datagen.flow_from_directory(train_parent_directory,
+    val_generator = train_datagen.flow_from_directory(valid_test_parent_directory,
                                                       target_size=(75, 75),
                                                       batch_size=37,
-                                                      class_mode='categorical',
-                                                      subset='validation')
+                                                      class_mode='categorical')
 
     test_generator = test_datagen.flow_from_directory(test_parent_directory,
                                                       target_size=(75, 75),
@@ -59,10 +57,11 @@ def model_output_for_TL(pre_trained_model, last_output):
     return model
 
 
-train_dir = os.path.join('C:/Python/rps/datasets/train/')
-test_dir = os.path.join('C:/Python/rps/datasets/test/')
+train_dir = os.path.join('C:/Python/Apple-Lemon-Detector/datasets/train/')
+test_dir = os.path.join('C:/Python/Apple-Lemon-Detector/datasets/test/')
+val_dir = os.path.join('C:/Python/Apple-Lemon-Detector/datasets/val/')
 
-train_generator, validation_generator, test_generator = image_gen_w_aug(train_dir, test_dir)
+train_generator, validation_generator, test_generator = image_gen_w_aug(train_dir, val_dir, test_dir)
 
 pre_trained_model = InceptionV3(input_shape=(75, 75, 3),
                                 include_top=False,
