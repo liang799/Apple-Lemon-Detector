@@ -48,12 +48,21 @@ while (True):
     prediction = import_and_predict(image, model)
     #print(prediction)
 
+    #generate the chance of object being xxx
+    probability = str(round(((np.max(prediction))*100),2))
+
     if np.argmax(prediction) == 0:
-        predict="It is a paper!"
+        result = "%   Apple"
     elif np.argmax(prediction) == 1:
-        predict="It is a rock!"
+        result = "%   Lemon"
     else:
-        predict="It is a scissor!"
+        result = "%   Unknown"
+
+    #combine these two strings
+    tup1 = (probability, result)
+
+    #convert the tuple into one string
+    predict = "".join(tup1)
     
     cv2.putText(original, predict, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
     cv2.imshow("Classification", original)
