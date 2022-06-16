@@ -1,3 +1,4 @@
+from sklearn.model_selection import GridSearchCV
 from functions import image_gen_w_aug, plot_confusion_matrix
 from sklearn.metrics import classification_report, confusion_matrix
 from keras import callbacks
@@ -20,9 +21,11 @@ model = tf.keras.models.Sequential([
     # The second convolution
     tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
     tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Dropout(0.2),
     # The third convolution
     tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
     tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Dropout(0.2),
     # The fourth convolution
     tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
     tf.keras.layers.MaxPooling2D(2, 2),
@@ -41,11 +44,11 @@ earlystopping = callbacks.EarlyStopping(monitor="val_loss",
 history = model.fit(
     train_generator,
     epochs=25,
+    batch_size=64,
     verbose=1,
     validation_data=validation_generator,
-    callbacks=earlystopping)
+    callbacks=[earlystopping])
 
-# tf.keras.models.save_model(model, 'my_model.hdf5')
 
 # Get classes
 target_names = []
@@ -60,3 +63,5 @@ plot_confusion_matrix(cm, target_names, title='Confusion Matrix')
 
 # Print Classification Report
 print(classification_report(test_generator.classes, y_pred, target_names=target_names))
+
+tf.keras.models.save_model(model, 'my_model.hdf5')
