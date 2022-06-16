@@ -16,15 +16,15 @@ def image_gen_w_aug(train_parent_directory, valid_test_parent_directory, test_pa
 
     train_generator = train_datagen.flow_from_directory(train_parent_directory,
                                                         target_size=(75, 75),
-                                                        batch_size=37,
+                                                        batch_size=25,
                                                         class_mode='categorical')
     val_generator = train_datagen.flow_from_directory(valid_test_parent_directory,
                                                       target_size=(75, 75),
-                                                      batch_size=37,
+                                                      batch_size=25,
                                                       class_mode='categorical')
     test_generator = test_datagen.flow_from_directory(test_parent_directory,
                                                       target_size=(75, 75),
-                                                      batch_size=37,
+                                                      batch_size=25,
                                                       class_mode='categorical')
     return train_generator, val_generator, test_generator
 
