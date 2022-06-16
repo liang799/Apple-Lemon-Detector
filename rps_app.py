@@ -37,11 +37,11 @@ else:
     prediction = import_and_predict(image, model)
 
     if np.argmax(prediction) == 0:
-        st.write("It is a paper!")
+        st.write("It is a Apple!")
     elif np.argmax(prediction) == 1:
-        st.write("It is a rock!")
+        st.write("It is a Lemon!")
     elif np.argmax(prediction) == 2:
-        st.write("It is a scissor!")
+        st.write("Unknown Data! Enter the data conduit now!")
 
-    st.text("Probability (0: Paper, 1: Rock, 2: Scissor)")
+    st.text("Probability (0: Apple, 1: Lemon, 2: Unknown)")
     st.write(prediction)
