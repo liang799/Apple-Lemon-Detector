@@ -26,11 +26,11 @@ model = tf.keras.models.Sequential([
     # The third convolution
     tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
     tf.keras.layers.MaxPooling2D(2, 2),
-    tf.keras.layers.Dropout(0.5),
+    # tf.keras.layers.Dropout(0.5),
     # The fourth convolution
     tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
     tf.keras.layers.MaxPooling2D(2, 2),
-    tf.keras.layers.Dropout(0.2),
+    # tf.keras.layers.Dropout(0.2),
     # Flatten the results to feed into a DNN
     tf.keras.layers.Flatten(),
     # 512 neuron hidden layer
