@@ -1,7 +1,8 @@
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.layers import Flatten, Dense, Dropout
 from tensorflow.keras.models import Model
-import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib import pyplot as plt
 import itertools
 
 
@@ -75,3 +76,4 @@ def plot_confusion_matrix(cm, classes, normalize=True, title='Confusion matrix',
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
+    plt.show()
