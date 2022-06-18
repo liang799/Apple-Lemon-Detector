@@ -12,6 +12,7 @@ val_dir = os.path.join('C:/Python/Apple-Lemon-Detector/datasets/val/')
 test_dir = os.path.join('C:/Python/Apple-Lemon-Detector/datasets/test/')
 
 train_generator, validation_generator, test_generator = image_gen_w_aug(train_dir, val_dir, test_dir)
+# print(test_generator.classes.size)
 
 model = tf.keras.models.Sequential([
     # input is 75x75 with 3 bytes color
@@ -19,30 +20,24 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Conv2D(64, (3, 3), activation='relu',
                            input_shape=(75, 75, 3)),
     tf.keras.layers.MaxPooling2D(2, 2),
-    tf.keras.layers.Dropout(0.5),
+    tf.keras.layers.Dropout(0.6),
     # The second convolution
     tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
+    tf.keras.layers.Dropout(0.3),
     tf.keras.layers.MaxPooling2D(2, 2),
-    tf.keras.layers.Dropout(0.4),
     # The third convolution
     tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
     tf.keras.layers.MaxPooling2D(2, 2),
-    tf.keras.layers.Dropout(0.2),
     # The fourth convolution
     tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
     tf.keras.layers.MaxPooling2D(2, 2),
-    tf.keras.layers.Dropout(0.2),
     # Normalize
     tf.keras.layers.BatchNormalization(),
     # Flatten the results to feed into a DNN
     tf.keras.layers.Flatten(),
     # 512 neuron hidden layer
     tf.keras.layers.Dense(512, activation='relu', kernel_regularizer=regularizers.l2(1e-4)),
-    tf.keras.layers.Dropout(0.3),
-    tf.keras.layers.Dense(256, activation='relu', kernel_regularizer=regularizers.l2(1e-4)),
-    tf.keras.layers.Dense(128, activation='relu', kernel_regularizer=regularizers.l2(1e-4)),
-    tf.keras.layers.Dense(128, activation='relu', kernel_regularizer=regularizers.l2(1e-4)),
-    tf.keras.layers.Dropout(0.3),
+    tf.keras.layers.Dropout(0.2),
     tf.keras.layers.Dense(3, activation='softmax')
 ])
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
@@ -74,4 +69,4 @@ plot_confusion_matrix(cm, target_names, title='Confusion Matrix')
 # Print Classification Report
 print(classification_report(test_generator.classes, y_pred, target_names=target_names))
 
-# tf.keras.models.save_model(model, 'my_model.hdf5')
+tf.keras.models.save_model(model, 'my_model.hdf5')
