@@ -19,7 +19,7 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Conv2D(64, (3, 3), activation='relu',
                            input_shape=(75, 75, 3)),
     tf.keras.layers.MaxPooling2D(2, 2),
-    tf.keras.layers.Dropout(0.7),
+    tf.keras.layers.Dropout(0.5),
     # The second convolution
     tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
     tf.keras.layers.MaxPooling2D(2, 2),
@@ -33,11 +33,16 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.MaxPooling2D(2, 2),
     tf.keras.layers.Dropout(0.2),
     # Normalize
-    # tf.keras.layers.BatchNormalization(),
+    tf.keras.layers.BatchNormalization(),
     # Flatten the results to feed into a DNN
     tf.keras.layers.Flatten(),
     # 512 neuron hidden layer
     tf.keras.layers.Dense(512, activation='relu', kernel_regularizer=regularizers.l2(1e-4)),
+    tf.keras.layers.Dropout(0.3),
+    tf.keras.layers.Dense(256, activation='relu', kernel_regularizer=regularizers.l2(1e-4)),
+    tf.keras.layers.Dense(128, activation='relu', kernel_regularizer=regularizers.l2(1e-4)),
+    tf.keras.layers.Dense(128, activation='relu', kernel_regularizer=regularizers.l2(1e-4)),
+    tf.keras.layers.Dropout(0.3),
     tf.keras.layers.Dense(3, activation='softmax')
 ])
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
@@ -48,7 +53,7 @@ earlystopping = callbacks.EarlyStopping(monitor="val_loss",
                                         restore_best_weights=True)
 history = model.fit(
     train_generator,
-    epochs=25,
+    epochs=5, #orig is 25
     batch_size=64,
     verbose=1,
     validation_data=validation_generator,
