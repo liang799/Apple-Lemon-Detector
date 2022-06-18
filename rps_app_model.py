@@ -40,7 +40,7 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Dropout(0.2),
     tf.keras.layers.Dense(3, activation='softmax')
 ])
-model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
 
 
 earlystopping = callbacks.EarlyStopping(monitor="val_loss",
@@ -48,25 +48,31 @@ earlystopping = callbacks.EarlyStopping(monitor="val_loss",
                                         restore_best_weights=True)
 history = model.fit(
     train_generator,
-    epochs=5, #orig is 25
+    epochs=6,
     batch_size=64,
     verbose=1,
     validation_data=validation_generator,
     callbacks=[earlystopping])
 
+model.trainable = False
 
-# Get classes
-target_names = []
-for key in train_generator.class_indices:
-    target_names.append(key)
+acc = history.history['acc']
+val_acc = history.history['val_acc']
+loss = history.history['loss']
+val_loss = history.history['val_loss']
 
-# Plot Confusion Matrix
-Y_pred = model.predict(test_generator)
-y_pred = np.argmax(Y_pred, axis=1)
-cm = confusion_matrix(test_generator.classes, y_pred)
-plot_confusion_matrix(cm, target_names, title='Confusion Matrix')
+epochs = range(len(acc))
 
-# Print Classification Report
-print(classification_report(test_generator.classes, y_pred, target_names=target_names))
+plt.plot(epochs, acc, 'bo', label = 'Training acc')
+plt.plot(epochs, val_acc, 'b', label = 'Validation acc')
+plt.title('Training and validation accuaracy')
+plt.legend()
 
-tf.keras.models.save_model(model, 'my_model.hdf5')
+plt.figure()
+
+plt.plot(epochs, loss, 'bo', label = 'Training loss')
+plt.plot(epochs, val_loss, 'b', label = 'Validation loss')
+plt.title('Training and validation loss')
+plt.legend()
+
+plt.show()
