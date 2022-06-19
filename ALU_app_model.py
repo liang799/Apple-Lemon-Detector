@@ -20,17 +20,19 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Conv2D(64, (3, 3), activation='relu',
                            input_shape=(75, 75, 3)),
     tf.keras.layers.MaxPooling2D(2, 2),
-    tf.keras.layers.Dropout(0.6),
+    tf.keras.layers.Dropout(0.3),
     # The second convolution
     tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
-    tf.keras.layers.Dropout(0.3),
     tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Dropout(0.3),
     # The third convolution
     tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
     tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Dropout(0.2),
     # The fourth convolution
     tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
     tf.keras.layers.MaxPooling2D(2, 2),
+    tf.keras.layers.Dropout(0.2),
     # Normalize
     tf.keras.layers.BatchNormalization(),
     # Flatten the results to feed into a DNN
@@ -76,3 +78,8 @@ plt.title('Training and validation loss')
 plt.legend()
 
 plt.show()
+
+print("Do you wish to save the model?     (y/N):  ")
+answer = input()
+if answer == 'y' or answer == 'Y':
+    tf.keras.models.save_model(model, 'my_model.hdf5')
