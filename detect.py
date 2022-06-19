@@ -26,7 +26,7 @@ def import_and_predict(image_data, model):
         
         return prediction
 
-model = tf.keras.models.load_model('C:/Python/rps/my_model.hdf5')
+model = tf.keras.models.load_model('C:\Python\Apple-Lemon-Detector\my_model.hdf5')
 
     
 cap = cv2.VideoCapture(0)
