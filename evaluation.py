@@ -1,11 +1,6 @@
 import tensorflow as tf
-from keras import Model
-from keras.applications.vgg16 import VGG16
-from keras.applications.vgg16 import preprocess_input
 from keras.models import Model
-from keras.utils import img_to_array
 from matplotlib import pyplot
-from numpy import expand_dims
 from functions import image_gen_w_aug, plot_confusion_matrix
 from sklearn.metrics import classification_report, confusion_matrix
 import numpy as np
@@ -22,19 +17,6 @@ results1 = model.evaluate(test_generator, batch_size=None, verbose=2)
 print("test loss, test acc:", results1)
 
 model = Model(inputs=model.inputs, outputs=model.layers[1].output)
-
-# Visualising Image augmentation
-for i in range(9):
-    # define subplot
-    pyplot.subplot(330 + 1 + i)
-    # generate batch of images
-    batch = train_generator.next()
-    # convert to unsigned integers for viewing
-    image = batch[0].astype('uint8')
-    # plot raw pixel data
-    pyplot.imshow(image)
-# show the figure
-pyplot.show()
 
 # Visualising Feature Maps
 img, label = test_generator.next()
