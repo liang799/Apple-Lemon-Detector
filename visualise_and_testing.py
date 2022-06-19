@@ -23,6 +23,19 @@ print("test loss, test acc:", results1)
 
 model = Model(inputs=model.inputs, outputs=model.layers[1].output)
 
+# Visualising Image augmentation
+for i in range(9):
+    # define subplot
+    pyplot.subplot(330 + 1 + i)
+    # generate batch of images
+    batch = train_generator.next()
+    # convert to unsigned integers for viewing
+    image = batch[0].astype('uint8')
+    # plot raw pixel data
+    pyplot.imshow(image)
+# show the figure
+pyplot.show()
+
 # Visualising Feature Maps
 img, label = test_generator.next()
 # get feature map for first hidden layer
@@ -41,5 +54,3 @@ for _ in range(square):
         ix += 1
 # show the figure
 pyplot.show()
-
-
