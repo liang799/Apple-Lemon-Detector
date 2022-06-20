@@ -58,7 +58,7 @@ earlystopping = callbacks.EarlyStopping(monitor="val_loss", patience=1)
 tuner = keras_tuner.tuners.BayesianOptimization(
     hypermodel=build_model,
     objective='val_loss',
-    max_trials=1,
+    max_trials=50,
     overwrite=True,
     directory="logs",
     project_name="bae-tuning-v2",
@@ -67,7 +67,7 @@ tuner = keras_tuner.tuners.BayesianOptimization(
 
 tuner.search(train_generator,
              validation_data=validation_generator,
-             epochs=2,
+             epochs=30,
              callbacks=[earlystopping])
 
 # ========================================
