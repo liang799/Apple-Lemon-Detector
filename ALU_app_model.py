@@ -1,9 +1,6 @@
-from sklearn.model_selection import GridSearchCV
 from functions import image_gen_w_aug, plot_confusion_matrix
-from sklearn.metrics import classification_report, confusion_matrix
 from keras import callbacks, regularizers
 import tensorflow as tf
-import numpy as np
 import os
 import matplotlib.pyplot as plt
 
