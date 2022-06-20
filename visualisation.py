@@ -1,10 +1,15 @@
-from keras.preprocessing import image
 from keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 import matplotlib.pyplot as plt
 from tensorflow import keras
+from PIL import Image
 
 image_path = 'C://Python//Apple-Lemon-Detector//datasets//train//lemon//1 (212).jpg'
+
+# Visualise original image
+im = Image.open(image_path)
+plt.imshow(im)
+plt.show()
 
 # Loads image in from the set image path
 img = keras.preprocessing.image.load_img(image_path, target_size=(75, 75))
