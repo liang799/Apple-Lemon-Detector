@@ -19,7 +19,7 @@ def build_model(hp):
     model.add(tf.keras.Input(shape=(75, 75, 3)))
 
     # Conv layers
-    for i in range(hp.Int("conv_layers", min_value=3, max_value=5, step=1)):
+    for i in range(hp.Int("conv_layers", min_value=3, max_value=5, step=1, default=5)):
         model.add(
             layers.Conv2D(
                 hp.Int(f"filters_{i}", min_value=32, max_value=128, step=32),
@@ -57,11 +57,11 @@ earlystopping = callbacks.EarlyStopping(monitor="val_loss", patience=1)
 
 tuner = keras_tuner.tuners.BayesianOptimization(
     hypermodel=build_model,
-    objective='val_loss',
-    max_trials=50,
+    objective='val_accuracy',
+    max_trials=25,
     overwrite=True,
     directory="logs",
-    project_name="bae-tuning-v2",
+    project_name="bae-tuning-v3",
 )
 # tuner.search_space_summary()
 
