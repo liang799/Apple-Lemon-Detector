@@ -18,7 +18,7 @@ def import_and_predict(image_data, model):
     return prediction
 
 
-model = tf.keras.models.load_model('C:/Python/Apple-Lemon-Detector/tune.hdf5')  # loading a trained model
+model = tf.keras.models.load_model('tune.hdf5')  # loading a trained model
 
 st.write("""
          # Apple, Lemon, Unknown Detector
