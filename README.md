@@ -5,7 +5,7 @@
 ### Try it!
 Click this [link](https://share.streamlit.io/liang799/apple-lemon-detector/main/ALU_app.py) to get started.
 
-## Building the model
+### Building the model
 * Install the necessary dependencies
 * Replace `raw/` with your images and run `split_folders.py`
 * Run `ALU_tuning.py`
