@@ -3,7 +3,6 @@ import tensorflow as tf
 
 import cv2
 import numpy as np
-import os
 import sys
 
 label = ''
@@ -25,7 +24,7 @@ def import_and_predict(image_data, model):
     return prediction
 
 
-model = tf.keras.models.load_model('C:/Python/Apple-Lemon-Detector/tune.hdf5')
+model = tf.keras.models.load_model('models/tune.hdf5')
 
 cap = cv2.VideoCapture(0)
 
@@ -66,7 +65,7 @@ while True:
     cv2.imshow("Classification", original)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
-        break;
+        break
 
 cap.release()
 frame = None

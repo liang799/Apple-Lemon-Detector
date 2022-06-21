@@ -5,9 +5,9 @@ import tensorflow as tf
 import os
 import datetime
 
-train_dir = os.path.join('C:/Python/Apple-Lemon-Detector/datasets/train/')
-test_dir = os.path.join('C:/Python/Apple-Lemon-Detector/datasets/test/')
-val_dir = os.path.join('C:/Python/Apple-Lemon-Detector/datasets/val/')
+train_dir = os.path.join('datasets/train/')
+test_dir = os.path.join('datasets/test/')
+val_dir = os.path.join('datasets/val/')
 
 train_generator, validation_generator, test_generator = image_gen_w_aug(train_dir, val_dir, test_dir)
 
@@ -34,17 +34,3 @@ history = model_TL.fit(
     verbose=1,
     validation_data=validation_generator,
     callbacks=[tensorboard_callback])
-
-# Get classes
-target_names = []
-for key in train_generator.class_indices:
-    target_names.append(key)
-
-# Plot Confusion Matrix
-Y_pred = model_TL.predict(test_generator)
-y_pred = np.argmax(Y_pred, axis=1)
-cm = confusion_matrix(test_generator.classes, y_pred)
-plot_confusion_matrix(cm, target_names, title='Confusion Matrix')
-
-# Print Classification Report
-print(classification_report(test_generator.classes, y_pred, target_names=target_names))

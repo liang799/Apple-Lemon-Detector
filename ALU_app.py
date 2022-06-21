@@ -18,7 +18,7 @@ def import_and_predict(image_data, model):
     return prediction
 
 
-model = tf.keras.models.load_model('tune.hdf5')  # loading a trained model
+model = tf.keras.models.load_model('models/tune.hdf5')  # loading a trained model
 
 st.write("""
          # Apple, Lemon, Unknown Detector
@@ -27,8 +27,8 @@ st.write("""
 
 st.write("This is a simple image classification web app to predict lemon, apple or unknown")
 
-file = st.file_uploader("Please upload an image file", type=["jpg", "png"])
-#
+file = st.file_uploader("Please upload an image file", type=["jpg", "png", "jpeg", "webp"])
+
 if file is None:
     st.text("You haven't uploaded an image file")
 else:

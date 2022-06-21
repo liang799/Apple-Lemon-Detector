@@ -7,9 +7,9 @@ from tensorflow.keras import layers
 from functions import image_gen_w_aug
 import matplotlib.pyplot as plt
 
-train_dir = os.path.join('C:/Python/Apple-Lemon-Detector/datasets/train/')
-val_dir = os.path.join('C:/Python/Apple-Lemon-Detector/datasets/val/')
-test_dir = os.path.join('C:/Python/Apple-Lemon-Detector/datasets/test/')
+train_dir = os.path.join('datasets/train/')
+val_dir = os.path.join('datasets/val/')
+test_dir = os.path.join('datasets/test/')
 
 train_generator, validation_generator, test_generator = image_gen_w_aug(train_dir, val_dir, test_dir)
 
@@ -116,4 +116,4 @@ plt.show()
 # ========================================
 # Saving
 # ========================================
-tf.keras.models.save_model(hypermodel, 'tune.hdf5')
+tf.keras.models.save_model(hypermodel, 'models/tune.hdf5')

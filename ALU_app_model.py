@@ -4,9 +4,9 @@ import tensorflow as tf
 import os
 import matplotlib.pyplot as plt
 
-train_dir = os.path.join('C:/Python/Apple-Lemon-Detector/datasets/train/')
-val_dir = os.path.join('C:/Python/Apple-Lemon-Detector/datasets/val/')
-test_dir = os.path.join('C:/Python/Apple-Lemon-Detector/datasets/test/')
+train_dir = os.path.join('datasets/train/')
+val_dir = os.path.join('datasets/val/')
+test_dir = os.path.join('datasets/test/')
 
 train_generator, validation_generator, test_generator = image_gen_w_aug(train_dir, val_dir, test_dir)
 # print(test_generator.classes.size)
@@ -68,4 +68,4 @@ plt.show()
 print("Do you wish to save the model?     (y/N):  ")
 answer = input()
 if answer == 'y' or answer == 'Y':
-    tf.keras.models.save_model(model, 'my_model.hdf5')
+    tf.keras.models.save_model(model, 'model/my_model.hdf5')
