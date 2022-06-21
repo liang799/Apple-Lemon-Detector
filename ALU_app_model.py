@@ -14,40 +14,29 @@ train_generator, validation_generator, test_generator = image_gen_w_aug(train_di
 model = tf.keras.models.Sequential([
     # input is 75x75 with 3 bytes color
     # This is the first convolution
-    tf.keras.layers.Conv2D(64, (3, 3), activation='relu',
+    tf.keras.layers.Conv2D(32, (3, 3), activation='relu',
                            input_shape=(75, 75, 3)),
     tf.keras.layers.MaxPooling2D(2, 2),
-    tf.keras.layers.Dropout(0.3),
+    tf.keras.layers.Dropout(0.5),
     # The second convolution
     tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
     tf.keras.layers.MaxPooling2D(2, 2),
-    tf.keras.layers.Dropout(0.3),
-    # The third convolution
-    tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
-    tf.keras.layers.MaxPooling2D(2, 2),
-    tf.keras.layers.Dropout(0.2),
-    # The fourth convolution
-    tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
-    tf.keras.layers.MaxPooling2D(2, 2),
-    tf.keras.layers.Dropout(0.2),
     # Normalize
     tf.keras.layers.BatchNormalization(),
     # Flatten the results to feed into a DNN
     tf.keras.layers.Flatten(),
     # 512 neuron hidden layer
-    tf.keras.layers.Dense(512, activation='relu', kernel_regularizer=regularizers.l2(1e-4)),
-    tf.keras.layers.Dropout(0.2),
+    tf.keras.layers.Dense(128, activation='relu', kernel_regularizer=regularizers.l2(1e-4)),
     tf.keras.layers.Dense(3, activation='softmax')
 ])
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['acc'])
-
 
 earlystopping = callbacks.EarlyStopping(monitor="val_loss",
                                         mode="min", patience=5,
                                         restore_best_weights=True)
 history = model.fit(
     train_generator,
-    epochs=6,
+    epochs=25,
     batch_size=64,
     verbose=1,
     validation_data=validation_generator,
@@ -62,15 +51,15 @@ val_loss = history.history['val_loss']
 
 epochs = range(len(acc))
 
-plt.plot(epochs, acc, 'bo', label = 'Training acc')
-plt.plot(epochs, val_acc, 'b', label = 'Validation acc')
+plt.plot(epochs, acc, 'bo', label='Training acc')
+plt.plot(epochs, val_acc, 'b', label='Validation acc')
 plt.title('Training and validation accuaracy')
 plt.legend()
 
 plt.figure()
 
-plt.plot(epochs, loss, 'bo', label = 'Training loss')
-plt.plot(epochs, val_loss, 'b', label = 'Validation loss')
+plt.plot(epochs, loss, 'bo', label='Training loss')
+plt.plot(epochs, val_loss, 'b', label='Validation loss')
 plt.title('Training and validation loss')
 plt.legend()
 
