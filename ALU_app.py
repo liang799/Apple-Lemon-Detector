@@ -18,14 +18,14 @@ def import_and_predict(image_data, model):
     return prediction
 
 
-model = tf.keras.models.load_model('C:/Python/Apple-Lemon-Detector/my_model.hdf5')  # loading a trained model
+model = tf.keras.models.load_model('C:/Python/Apple-Lemon-Detector/tune.hdf5')  # loading a trained model
 
 st.write("""
-         # Rock-Paper-Scissor Hand Sign Prediction
+         # Apple, Lemon, Unknown Detector
          """
          )
 
-st.write("This is a simple image classification web app to predict rock-paper-scissor hand sign")
+st.write("This is a simple image classification web app to predict lemon, apple or unknown")
 
 file = st.file_uploader("Please upload an image file", type=["jpg", "png"])
 #

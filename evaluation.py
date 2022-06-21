@@ -12,7 +12,7 @@ test_dir = os.path.join('C:/Python/Apple-Lemon-Detector/datasets/test/')
 
 train_generator, validation_generator, test_generator = image_gen_w_aug(train_dir, val_dir, test_dir)
 
-model = tf.keras.models.load_model('C:/Python/Apple-Lemon-Detector/my_model.hdf5')  # loading a trained model
+model = tf.keras.models.load_model('C:/Python/Apple-Lemon-Detector/tune.hdf5')  # loading a trained model
 results1 = model.evaluate(test_generator, batch_size=None, verbose=2)
 print("test loss, test acc:", results1)
 
