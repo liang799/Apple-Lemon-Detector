@@ -61,14 +61,15 @@ tuner = keras_tuner.tuners.BayesianOptimization(
     max_trials=25,
     overwrite=True,
     directory="logs",
-    project_name="bae-tuning-v3",
+    project_name="bae-tuning-tensorboard-v4",
 )
 # tuner.search_space_summary()
 
 tuner.search(train_generator,
              validation_data=validation_generator,
              epochs=30,
-             callbacks=[earlystopping])
+             callbacks=[earlystopping,
+                       keras.callbacks.TensorBoard("logs/tuning-tensorboard/bae-v1")])
 
 # ========================================
 # Get the optimal hyperparameters
@@ -83,21 +84,20 @@ val_acc_per_epoch = history.history['val_accuracy']
 best_epoch = val_acc_per_epoch.index(max(val_acc_per_epoch)) + 1
 print('Best epoch: %d' % (best_epoch,))
 
-hypermodel = tuner.hypermodel.build(best_hps)
-
 # ========================================
 # Retrain the model
 # ========================================
+hypermodel = tuner.hypermodel.build(best_hps)
 hypermodel.fit(test_generator, validation_data=validation_generator, epochs=best_epoch)
 
+# ========================================
+# Visualising
+# ========================================
 acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 
-# ========================================
-# Visualising
-# ========================================
 epochs = range(len(acc))
 plt.plot(epochs, acc, 'bo', label='Training acc')
 plt.plot(epochs, val_acc, 'b', label='Validation acc')
